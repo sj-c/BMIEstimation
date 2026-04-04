@@ -83,6 +83,9 @@ class KeyPointDetectionModule:
 
                 for idx, output in enumerate(outputs):
                     instances = output["instances"]
+                    if len(instances) == 0:
+                        batch_images[idx].keypoints = None
+                        continue
                     max_conf_idx = instances.scores.argmax().item()
                     keypoints = instances.pred_keypoints[max_conf_idx].cpu().numpy()
                     keypoint_data = zip(self.keypoint_names, keypoints)
