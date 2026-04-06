@@ -10,7 +10,7 @@ from detectron2.modeling import build_model
 from detectron2.data import MetadataCatalog
 from detectron2.data.transforms import ResizeShortestEdge
 from tqdm import tqdm
-from helpers.pydantic_models import WaybetterImage, HumanBoundingBox
+from filter_images.helpers.pydantic_models import WaybetterImage, HumanBoundingBox
 import time
 
 torch.backends.cudnn.benchmark = False

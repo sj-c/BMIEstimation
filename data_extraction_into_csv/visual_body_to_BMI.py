@@ -2,7 +2,8 @@ import re
 
 file_name = "1a9089_a3eWh9O_138_69_false.jpg"
 
-pattern = r"([a-zA-Z0-9]+)_([a-zA-Z0-9]+)_(\d+)_(\d+)_(true|false)\.jpg"
+
+pattern = r"([a-zA-Z0-9]+)_([a-zA-Z0-9]+)_(\d+)_(\d+)_(true|false).*\.jpg"
 ret = re.match(pattern, file_name)
 
 weight_lb = float(ret.group(3))

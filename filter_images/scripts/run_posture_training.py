@@ -9,16 +9,14 @@ from train_posture_clustering import (
     save_elbow_curve,
 )
 
-PROJECT_ROOT = Path(__file__).resolve().parent.parent
-
-RESULTS_DIR = PROJECT_ROOT / "filter_images/results"
+RESULTS_DIR = Path("filter_images/results")
 RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
-MODELS_DIR = PROJECT_ROOT / "filter_images/trained_models"
+MODELS_DIR = Path("filter_images/trained_models")
 MODELS_DIR.mkdir(parents=True, exist_ok=True)
 
-KEYPOINTS_CSV = PROJECT_ROOT / "csv/keypoints_wide.csv"
-BBOX_CSV = Path("csv/bounding_boxes.csv")
+KEYPOINTS_CSV = Path("csvs/keypoints_wide.csv")
+BBOX_CSV = Path("csvs/bounding_boxes.csv")
 
 
 def save_cluster_results(results, normalized_df, out_csv):
@@ -30,7 +28,7 @@ def save_cluster_results(results, normalized_df, out_csv):
 
     keep_cols = [
         c for c in
-        ["source", "person_id", "image_path", "cluster", "cluster_confidence"]
+        ["source",  "image_path", "cluster", "cluster_confidence"]
         if c in df.columns
     ]
     df[keep_cols].to_csv(out_csv, index=False)
@@ -57,7 +55,7 @@ def main():
 
     save_elbow_curve(features, RESULTS_DIR / "elbow_curve.png", max_k=10)
 
-    results = train_clustering(features=features, n_clusters=4)
+    results = train_clustering(features=features, n_clusters=5)
 
     save_trained_models(results, model_dir=MODELS_DIR)
 

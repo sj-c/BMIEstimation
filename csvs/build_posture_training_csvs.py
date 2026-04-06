@@ -1,4 +1,3 @@
-from pathlib import Path
 from types import SimpleNamespace
 import pandas as pd
 
@@ -10,13 +9,13 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DATASET_ROOT = Path("/workspace/dataset")
 
-RESULTS_DIR = PROJECT_ROOT / "csv"
-METADATA_CSV = RESULTS_DIR / "dataset_metadata.csv"
+RESULTS_DIR = PROJECT_ROOT / "csvs"
+
+METADATA_CSV = PROJECT_ROOT / "csvs/dataset_metadata.csv"
 
 def keypoints_to_wide_row(sample):
     row = {
         "source": sample.source,
-        "person_id": sample.person_id,
         "image_path": sample.image_path,
     }
     for kp in sample.keypoints:
@@ -34,7 +33,7 @@ def main():
                 original_path=Path(row["image_path"]),
                 image_path=row["image_path"],
                 source=row["source"],
-                person_id=row["person_id"],
+
                 bounding_box=None,
                 keypoints=None,
             )
@@ -55,7 +54,6 @@ def main():
         if s.bounding_box is not None:
             bbox_rows.append({
                 "source": s.source,
-                "person_id": s.person_id,
                 "image_path": s.image_path,
                 "x1": s.bounding_box.x1,
                 "y1": s.bounding_box.y1,
