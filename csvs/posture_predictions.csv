@@ -1,6 +1,0 @@
-source,image_path,sex,height,weight,bmi,cluster,good_posture,confidence
-2DImage2BMI,/workspace/test_dataset/2DImage2BMI/Image_train/3_f_22_165100_6803886.jpg,0,1.651,68.03886,24.9611,2,True,0.22425648927854724
-2DImage2BMI,/workspace/test_dataset/2DImage2BMI/Image_val/2_F_32_154940_9071848.jpg,0,1.5494,90.71848,37.7893,0,False,0.9999999403953588
-2DImage2BMI,/workspace/test_dataset/2DImage2BMI/Image_test/2_M_36_190500_9752237.jpg,1,1.905,97.52237,26.8729,3,True,0.9999999403953588
-Celeb-FBI,/workspace/test_dataset/Celeb-FBI Dataset/1000_5.7h_70w_male_46a.jpg,1,1.7018,70.0,26.8729,2,True,0.2242564892785474
-visual_body_to_BMI,/workspace/test_dataset/visual_body_to_BMI/zzuow_BNQL9_195_69_false_207_1.6.jpg,1,1.905,97.52237,26.8729,1,False,1.0
