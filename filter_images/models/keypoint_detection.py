@@ -9,7 +9,7 @@ from detectron2.modeling import build_model
 from detectron2.data import MetadataCatalog
 from detectron2.data.transforms import ResizeShortestEdge
 from tqdm import tqdm
-from src.helpers.pydantic_models import WaybetterImage, Keypoint
+from filter_images.helpers.pydantic_models import WaybetterImage, Keypoint
 
 torch.backends.cudnn.benchmark = False
 

@@ -1,22 +1,3 @@
-"""
-POSTURE CLUSTERING TRAINING
-
-This script trains new posture clustering models and provides interactive
-helpers to identify good vs bad clusters.
-
-Usage:
-    python train_posture_clustering.py
-
-Or import in notebook:
-    from train_posture_clustering import train_clustering, InteractiveClusterExplorer
-
-    # Train models
-    models = train_clustering(data)
-
-    # Explore clusters interactively
-    explorer = InteractiveClusterExplorer(models, data)
-    explorer.show()
-"""
 import pickle
 import numpy as np
 import pandas as pd
@@ -31,7 +12,7 @@ def prepare_keypoint_data_from_csv(keypoints_csv, bounding_boxes_csv):
     keypoints_df = pd.read_csv(keypoints_csv)
     bounding_boxes_df = pd.read_csv(bounding_boxes_csv).copy()
 
-    merge_cols = ["source", "person_id", "image_path"]
+    merge_cols = ["source", "image_path"]
 
     bounding_boxes_df["width"] = bounding_boxes_df["x2"] - bounding_boxes_df["x1"]
     bounding_boxes_df["height"] = bounding_boxes_df["y2"] - bounding_boxes_df["y1"]

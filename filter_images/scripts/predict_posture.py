@@ -106,52 +106,81 @@ def predict_posture(
     return {"clusters": clusters, "good_posture": good_posture, "confidence": confidence}
 
 
-def example_usage():
-    """Example showing how to use the posture prediction."""
-    print("🏃 POSTURE PREDICTION EXAMPLE")
+from pathlib import Path
+import pandas as pd
+import numpy as np
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+RESULTS_DIR = PROJECT_ROOT / "csvs"
+
+KEYPOINTS_CSV = RESULTS_DIR / "keypoints_wide.csv"
+BBOX_CSV = RESULTS_DIR / "bounding_boxes.csv"
+METADATA_CSV = RESULTS_DIR / "dataset_metadata.csv"
+
+OUTPUT_CSV = RESULTS_DIR / "posture_predictions.csv"
+
+
+def run_full_posture_pipeline():
+    print("🏃 POSTURE PREDICTION (FULL DATASET)")
     print("=" * 50)
 
-    try:
-        # Load sample data
-        from helpers.load_waybetter_db import load_keypoints_db, load_bounding_boxes_db
+    # Load data
+    keypoints_df = pd.read_csv(KEYPOINTS_CSV)
+    bounding_boxes_df = pd.read_csv(BBOX_CSV)
+    metadata_df = pd.read_csv(METADATA_CSV)
 
-        print("📊 Loading sample data...")
-        keypoints_df = load_keypoints_db().head(10)  # First 10 samples
-        bounding_boxes_df = load_bounding_boxes_db()
+    print(f"📊 Loaded:")
+    print(f"   - {len(keypoints_df)} keypoints")
+    print(f"   - {len(bounding_boxes_df)} bounding boxes")
+    print(f"   - {len(metadata_df)} metadata rows")
 
-        print(f"   - {len(keypoints_df)} keypoint samples")
-        print(f"   - {len(bounding_boxes_df)} bounding boxes")
+    # Run prediction
+    print("\n🤖 Predicting postures...")
+    results = predict_posture(keypoints_df, bounding_boxes_df)
 
-        # Predict postures
-        print("\n🤖 Predicting postures...")
-        results = predict_posture(keypoints_df, bounding_boxes_df)
+    # Merge metadata (IMPORTANT: match keys)
+    merge_cols = ["source", "person_id", "image_path"]
 
-        # Display results
-        print("\n📋 RESULTS:")
-        print(f"   Clusters: {results['clusters']}")
-        print(f"   Good posture: {results['good_posture']}")
-        print(f"   Confidence: {results['confidence']:.3f}")
+    df = metadata_df.merge(
+        keypoints_df[merge_cols],
+        on=merge_cols,
+        how="inner"
+    )
 
-        # Summary
-        n_good = results["good_posture"].sum()
-        n_total = len(results["clusters"])
+    # Add predictions
+    df["cluster"] = results["clusters"]
+    df["good_posture"] = results["good_posture"]
+    df["confidence"] = results["confidence"]
 
-        print(f"\n✅ SUMMARY:")
-        print(f"   Good postures: {n_good}/{n_total} ({n_good/n_total*100:.1f}%)")
-        print(f"   Cluster breakdown: {np.bincount(results['clusters'])}")
+    # Select final columns
+    final_cols = [
+        "source",
+        "image_path",
+        "gender",
+        "height",
+        "weight",
+        "bmi",
+        "cluster",
+        "good_posture",
+        "confidence"
+    ]
 
-        # Individual results
-        print(f"\n🔍 INDIVIDUAL RESULTS:")
-        for i, (cluster, good, conf) in enumerate(
-            zip(results["clusters"], results["good_posture"], results["confidence"])
-        ):
-            status = "✅ GOOD" if good else "❌ BAD"
-            print(f"   Sample {i+1}: Cluster {cluster} | {status} | Confidence: {conf:.3f}")
+    final_cols = [c for c in final_cols if c in df.columns]
+    df = df[final_cols]
 
-    except Exception as e:
-        print(f"❌ Error: {e}")
-        print("💡 Make sure you have trained models in 'trained_models/keypoint_models/'")
+    # Save CSV
+    df.to_csv(OUTPUT_CSV, index=False)
+
+    print(f"\n💾 Saved to: {OUTPUT_CSV}")
+
+    # Summary (your requested print)
+    n_good = df["good_posture"].sum()
+    n_total = len(df)
+
+    print(f"\n✅ SUMMARY:")
+    print(f"   Good postures: {n_good}/{n_total} ({n_good/n_total*100:.1f}%)")
+    print(f"   Cluster breakdown: {np.bincount(df['cluster'])}")
 
 
 if __name__ == "__main__":
-    example_usage()
+    run_full_posture_pipeline()
