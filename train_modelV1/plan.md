@@ -94,3 +94,22 @@ Test RMSE: 5.2551
 Test MAE:  3.7892
 
 aim (waybed):2.56
+
+Epoch 0: Train 144.2740 | Val 58.6781 
+Epoch 1: Train 40.5613 | Val 47.3999 
+Epoch 2: Train 34.7304 | Val 41.0713 
+Epoch 3: Train 30.1186 | Val 35.8425 
+Epoch 4: Train 28.1036 | Val 33.9611 
+Epoch 5: Train 26.8266 | Val 35.2067 
+Epoch 6: Train 24.6567 | Val 30.0393 
+Epoch 7: Train 24.0490 | Val 30.2853 
+Epoch 8: Train 23.4830 | Val 29.8700 
+Epoch 9: Train 22.8103 | Val 32.4541 
+Epoch 10: Train 22.0400 | Val 29.2847 
+Epoch 11: Train 21.2294 | Val 28.5677 
+Epoch 12: Train 20.3163 | Val 28.0868 
+Epoch 13: Train 19.4833 | Val 28.6874 
+Epoch 14: Train 20.4745 | Val 29.2968 
+Epoch 15: Train 19.3734 | Val 28.5145 
+Epoch 16: Train 18.5312 | Val 32.4436 
+Epoch 17: Train 18.8282 | Val 29.4934
