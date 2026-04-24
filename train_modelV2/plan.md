@@ -1,0 +1,1 @@
+Edit 1: CLS + mean(patch tokens) for pooling 

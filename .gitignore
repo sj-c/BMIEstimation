@@ -2,3 +2,4 @@ venv/
 dataset/
 src/
 **/*.csv
+**/*.pth
