@@ -4,7 +4,7 @@ import torch.optim as optim
 from torch.utils.data import DataLoader
 
 from dataset import BMIDataset
-from model import DinoBMIModel
+from model import DinoBMIModelV1, DinoBMIModelV2, DinoBMIModelV3
 from utils import get_train_transform, get_val_transform, plot_loss
 
 import pandas as pd
@@ -38,10 +38,11 @@ val_loader   = DataLoader(val_dataset, batch_size=32)
 test_loader  = DataLoader(test_dataset, batch_size=32)
 
 # --- Model ---
-model = DinoBMIModel().to(device)
+model = DinoBMIModelV3().to(device)
 
 # --- Loss + optimizer ---
 criterion = nn.MSELoss()
+#criterion = nn.SmoothL1Loss()
 optimizer = optim.Adam(model.head.parameters(), lr=1e-3)
 
 # --- Early stopping ---
@@ -94,7 +95,7 @@ for epoch in range(50):
     if val_loss < best_val_loss:
         best_val_loss = val_loss
         counter = 0
-        torch.save(model.state_dict(), "best_modelV2.pth")
+        torch.save(model.state_dict(), "best_model.pth")
     else:
         counter += 1
         if counter >= patience:

@@ -66,36 +66,36 @@ results_df = pd.DataFrame({
 })
 results_df.to_csv("test_predictions.csv", index=False)
 
-# # Plot 1: Predicted vs Actual
-# plt.figure()
-# plt.scatter(all_true, all_pred, alpha=0.5)
-# plt.xlabel("True BMI")
-# plt.ylabel("Predicted BMI")
-# plt.title("Predicted vs True BMI - Test Set")
+# Plot 1: Predicted vs Actual
+plt.figure()
+plt.scatter(all_true, all_pred, alpha=0.5)
+plt.xlabel("True BMI")
+plt.ylabel("Predicted BMI")
+plt.title("Predicted vs True BMI - Test Set")
 
-# min_val = min(all_true.min(), all_pred.min())
-# max_val = max(all_true.max(), all_pred.max())
-# plt.plot([min_val, max_val], [min_val, max_val], "r--")
+min_val = min(all_true.min(), all_pred.min())
+max_val = max(all_true.max(), all_pred.max())
+plt.plot([min_val, max_val], [min_val, max_val], "r--")
 
-# plt.savefig("test_set_pred_vs_true.png", dpi=200)
-# plt.close()
+plt.savefig("pred_vs_true_test.png", dpi=200)
+plt.close()
 
-# # Plot 2: Error distribution
-# errors = all_pred - all_true
+# Plot 2: Error distribution
+errors = all_pred - all_true
 
-# plt.figure()
-# plt.hist(errors, bins=30)
-# plt.xlabel("Prediction Error (Predicted - True BMI)")
-# plt.ylabel("Count")
-# plt.title("Error Distribution - Test Set")
-# plt.savefig("error_distribution_test.png", dpi=200)
-# plt.close()
+plt.figure()
+plt.hist(errors, bins=30)
+plt.xlabel("Prediction Error (Predicted - True BMI)")
+plt.ylabel("Count")
+plt.title("Error Distribution - Test Set")
+plt.savefig("error_distribution_test.png", dpi=200)
+plt.close()
 
-# # Plot 3: Absolute error vs true BMI
-# plt.figure()
-# plt.scatter(all_true, np.abs(errors), alpha=0.5)
-# plt.xlabel("True BMI")
-# plt.ylabel("Absolute Error")
-# plt.title("Absolute Error vs True BMI - Test Set")
-# plt.savefig("abs_error_vs_true_bmi_test.png", dpi=200)
-# plt.close()
+# Plot 3: Absolute error vs true BMI
+plt.figure()
+plt.scatter(all_true, np.abs(errors), alpha=0.5)
+plt.xlabel("True BMI")
+plt.ylabel("Absolute Error")
+plt.title("Absolute Error vs True BMI - Test Set")
+plt.savefig("abs_error_vs_true_bmi_test.png", dpi=200)
+plt.close()

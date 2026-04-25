@@ -17,15 +17,30 @@ class DinoBMIModel(nn.Module):
 
         # Regression head
         self.head = nn.Sequential(
-            nn.Linear(768, 256),
+            nn.Linear(1536, 512),
+            nn.ReLU(),
+            nn.Dropout(0.3),
+            nn.Linear(512, 128),
             nn.ReLU(),
             nn.Dropout(0.2),
-            nn.Linear(256, 1)
+            nn.Linear(128, 1)
         )
 
     def forward(self, x):
-        # CLS embedding
-        features = self.backbone(x)  # (B, 768)
+        # Get all tokens
+        outputs = self.backbone.forward_features(x)
+
+        # CLS token
+        cls = outputs["x_norm_clstoken"]        # (B, 768)
+
+        # Patch tokens
+        patch_tokens = outputs["x_norm_patchtokens"]  # (B, N, 768)
+
+        # Mean pooling over patches
+        patch_mean = patch_tokens.mean(dim=1)  # (B, 768)
+
+        # Combine CLS + patch mean
+        features = torch.cat([cls, patch_mean], dim=1)  # (B, 1536)
 
         out = self.head(features)
         return out.squeeze(1)
